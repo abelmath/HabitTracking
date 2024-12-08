@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Habit</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    /* Your existing CSS styles ... */
+
+    /* New animation styles */
+    .animate-fade {
+      opacity: 0;
+      animation: fade-in 2s ease-in-out forwards;
+    }
+    @keyframes fade-in {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slide {
+      transform: translateY(20px);
+      animation: slide-in 2s ease-in-out forwards;
+    }
+    @keyframes slide-in {
+      0% { transform: translateY(20px); }
+      100% { transform: translateY(0); }
+    }
+    .animate-scale-up {
+      transform: scale(0);
+      animation: scale-up 2s ease-in-out forwards;
+    }
+    @keyframes scale-up {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
+    }
+    .animate-bounce {
+      animation: bounce 2s infinite;
+      display: inline-block;
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-15px);
+      }
+      60% {
+        transform: translateY(-7px);
+      }
+    }
+    .animate-color-change {
+      color: #00ffcc;
+      animation: colorChange 5s infinite;
+    }
+  </style>
+</head>
+<body style="background-color: #000000; color: #ffffff;">
+
+  <div class="container animate-fade">
+    <div class="row mt-4 animate-slide">
+      <div class="col-md-12 text-center">
+        <h1 class="display-4 animate-color-change animate-slide"><i class="fas fa-rocket"></i> Add Habit <i class="fas fa-rocket"></i></h1>
+      </div>
+    </div>
+
+    <div class="row mt-4 animate-slide">
+      <div class="col-md-12">
+        <form action="/habits" method="post">
+          <div class="form-group animate-slide">
+            <input type="text" name="name" placeholder="Enter habit name" required class="form-control animate-scale-up">
+          </div>
+          <button type="submit" class="btn btn-success animate-slide-up"><i class="fas fa-plus animate-bounce"></i> Add Habit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

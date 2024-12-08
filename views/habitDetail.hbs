@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Habit Detail</title>
+  
+  <!-- Import Bootstrap for responsive UI components -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  
+  <!-- Import Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  
+  <style>
+    /* Custom Animations */
+    .animate-fade {
+      opacity: 0;
+      animation: fade-in 2s ease-in-out forwards;
+    }
+
+    @keyframes fade-in {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Slide-in effect */
+    .animate-slide {
+      transform: translateY(20px);
+      animation: slide-in 2s ease-in-out forwards;
+    }
+
+    @keyframes slide-in {
+      0% { transform: translateY(20px); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Bounce animation */
+    .animate-bounce {
+      animation: bounce 2s infinite;
+      display: inline-block;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-15px);
+      }
+      60% {
+        transform: translateY(-7px);
+      }
+    }
+
+    /* Color-changing animation */
+    .animate-color-change {
+      color: #00ffcc;
+      animation: colorChange 5s infinite;
+    }
+
+    /* Body and text styles */
+    body {
+      background-color: #000000; /* Set the background to black */
+      color: #ffffff; /* Text color is white */
+    }
+
+    /* Heading styles */
+    .habit-heading {
+      margin-bottom: 20px;
+    }
+
+    .habit-heading h1 {
+      color: orange; /* Set the main heading color to orange */
+    }
+
+    /* Habit details section */
+    .habit-details {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Main Container -->
+  <div class="container animate-fade">
+    <!-- Header Section with animations -->
+    <div class="row mt-4 animate-slide">
+      <div class="col-md-12 text-center">
+        <!-- Back Button -->
+        <a href="/" class="btn btn-secondary btn-sm animate-slide-up">
+          <i class="fas fa-arrow-left animate-bounce"></i> Go Back
+        </a>
+        
+        <!-- Habit Name with animations -->
+        <h1 class="display-4 animate-color-change animate-slide habit-heading">
+          <span class="emoji">📝</span> {{habit.name}} <span class="emoji">📝</span>
+        </h1>
+        
+        <!-- Habit Stats -->
+        <h2 class="lead futuristic-text animate-slide habit-heading">
+          <i class="far fa-clock"></i> Longest Streak: {{habit.longestStreak}}
+        </h2>
+        <h2 class="lead futuristic-text animate-slide habit-heading">
+          <i class="far fa-calendar"></i> Total Days: {{habit.totalDays}}
+        </h2>
+        <h2 class="lead futuristic-text animate-slide habit-heading">
+          <i class="fas fa-check-circle"></i> Total Done Days: {{habit.totalDoneDays}}
+        </h2>
+      </div>
+    </div>
+
+    <!-- Status Update Form -->
+    <div class="row mt-4 animate-slide">
+      <div class="col-md-12">
+        <form action="/habits/{{habit._id}}/update-status" method="post">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr class="habit-heading">
+                <th>Date</th>
+                <th>Status</th>
+                <th>Timing</th>
+              </tr>
+            </thead>
+            <tbody class="habit-details">
+              <!-- Loop through days from the provided 'days' array in the controller -->
+              {{#each days}}
+                <tr>
+                  <td>{{this.date}}</td>
+                  <td>
+                    <!-- Dropdown for Habit Status -->
+                    <select name="statuses[]" class="form-control">
+                      <option value="Done" {{#if (eq this.status 'Done')}}selected{{/if}}>Done</option>
+                      <option value="Not Done" {{#if (eq this.status 'Not Done')}}selected{{/if}}>Not Done</option>
+                      <option value="None" {{#if (eq this.status 'None')}}selected{{/if}}>None</option>
+                    </select>
+                  </td>
+                  <td>
+                    <!-- Input field for Timing -->
+                    <input type="text" name="timings[]" value="{{this.timing}}" class="form-control">
+                  </td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+          <button type="submit" class="btn btn-primary animate-slide-up">
+            <i class="fas fa-sync animate-bounce"></i> Update Status
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Chart Section for Visualization -->
+    <div class="row mt-4 animate-slide">
+      <div class="col-md-12 text-center">
+        <div id="chart" style="width: 100%; height: 400px;"></div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Load Google Charts -->
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script>
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      const dataArray = [
+        ['Date', 'Streak'],
+        {{#each habit.history}}
+          [new Date('{{this.date}}'), {{this.streak}}],
+        {{/each}}
+      ];
+      
+      const data = google.visualization.arrayToDataTable(dataArray);
+
+      const options = {
+        title: 'Streak Progress',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        hAxis: { format: 'MMM d' },
+        chartArea: { width: '80%', height: '70%' },
+      };
+
+      const chart = new google.visualization.LineChart(document.getElementById('chart'));
+      chart.draw(data, options);
+    }
+  </script>
+
+</body>
+</html>

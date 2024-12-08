@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Habit Tracker</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    /* Your existing CSS styles ... */
+
+    /* Static Text Colors */
+    body {
+      background-color: #000000;
+      color: #f76300;
+    }
+
+    .static-text {
+      color: white; /* Changed the text color to white */
+    }
+  </style>
+</head>
+<body style="background-color: #000000; color: #f76300;">
+
+  <div class="container animate-fade">
+    <div class="row mt-4 animate-slide">
+      <div class="col-md-12 text-center">
+        <h1 class="display-4 animate-bounce">
+          <span class="emoji">🚀</span> Habit Tracker <span class="emoji">📊</span>
+        </h1>
+      </div>
+    </div>
+
+    <!-- Welcome message with static white text -->
+    <div class="row mt-4 animate-slide">
+      <div class="col-md-12 text-center">
+        <h2 class="lead static-text">
+          Hey <span class="emoji">👋</span> {{user.name}}! Ready to level up! <span class="emoji">📅</span>
+        </h2>
+      </div>
+    </div>
+
+    <div class="row mt-4 animate-slide">
+      <div class="col-md-12">
+        <ul class="list-group habit-list">
+          {{#each habits}}
+            <li class="list-group-item d-flex justify-content-between align-items-center animate-fade-up" style="background-color: #3f56864d; color: #d61414; margin-bottom: 10px;">
+              <div class="d-flex align-items-center">
+                <span class="mr-3"><i class="fas fa-tasks"></i></span>
+                <a href="/habits/{{this._id}}" style="text-decoration: none; color: #9de6c5;">{{this.name}}</a>
+              </div>
+              <div>
+                <form action="/habits/{{this._id}}/update-name" method="post">
+                  <input type="text" name="name" placeholder="Edit habit name" required class="form-control">
+                  <button type="submit" class="btn btn-warning btn-sm ml-2"><i class="fas fa-edit"></i> Rename</button>
+                </form>
+                <form action="/habits/{{this._id}}/delete" method="post">
+                  <button type="submit" class="btn btn-danger btn-sm ml-2"><i class="fas fa-trash-alt"></i> Delete</button>
+                </form>
+                <a href="/habits/{{this._id}}" class="btn btn-primary btn-sm ml-2 animate-slide-right">
+                  <i class="fas fa-chevron-right"></i> Open
+                </a>
+              </div>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+
+    <div class="row mt-4 animate-slide">
+      <div class="col-md-12 text-center">
+        <form action="/habits" method="post" class="form-inline">
+          <input type="text" name="name" placeholder="Enter habit name" required class="form-control mr-2 animate-scale-up">
+          <button type="submit" class="btn btn-success animate-scale-up">
+            <i class="fas fa-plus"></i> Add Habit
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

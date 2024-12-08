@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(100deg,rgb(153, 233, 233),rgb(105, 105, 240));
+    color: rgb(242, 242, 242);
+    display: flexbox;
+    justify-content: flex-start;
+  }
+  
+  h1 {
+    color: #fdfdfd;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 10px;
+  }
+  
+  form {
+    margin-top: 20px;
+  }
+  
+  #habit-chart {
+    width: 400px;
+    height: 300px;
+    margin-top: 20px;
+  }
+  
