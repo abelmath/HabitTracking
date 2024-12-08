@@ -37,6 +37,10 @@ Run the following command -> node server.js
 The server will run at local host 3000
 Open in browser
 
+## live site link
+
+https://habittracking-qdlw.onrender.com
+
 ## License
 This project is licensed under the MIT License.
 
